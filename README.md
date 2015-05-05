@@ -1,6 +1,9 @@
 Go Clui
 =======
 
+[![Build Status](https://travis-ci.org/enr/clui.png?branch=master)](https://travis-ci.org/enr/clui)
+[![Build status](https://ci.appveyor.com/api/projects/status/i3k7rc0eudia1lws?svg=true)](https://ci.appveyor.com/project/enr/clui)
+
 Opiniated, minimalistic and multi platform UI library for Golang command line apps.
 
 
@@ -43,4 +46,3 @@ A lot of code of this library was taken from Packer UI released under the same l
 Mozilla Public License Version 2.0 - see LICENSE file.
 
 Copyright 2015 clui contributors
-
