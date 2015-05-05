@@ -17,8 +17,6 @@ clone_folder: c:\gopath\src\github.com\enr\clui
 environment:
   GOPATH: c:\gopath
   matrix:
-  - GOARCH: 386
-    GOVERSION: 1.4
   - GOARCH: amd64
     GOVERSION: 1.4
 

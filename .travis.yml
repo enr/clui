@@ -1,4 +1,6 @@
 
+sudo: false
+
 language: go
 
 branches:
@@ -7,4 +9,3 @@ branches:
 
 go:
  - 1.4
-
