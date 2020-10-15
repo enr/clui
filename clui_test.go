@@ -341,10 +341,3 @@ func TestMachineReadableLayout(t *testing.T) {
 		t.Fatalf("error/quiet invalid output: %s", result)
 	}
 }
-
-func TestGetMessageCategoryLabel(t *testing.T) {
-	categoryLabel := GetCategoryLabel(MessageCategoryError)
-	if categoryLabel != "error" {
-		t.Fatalf("invalid output: %s", categoryLabel)
-	}
-}

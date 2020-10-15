@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/enr/clui"
 )
@@ -77,4 +78,19 @@ func main() {
 	ui.Warn("warn ! warn !")
 	ui.Error("You made an error!")
 
+	fmt.Println("====== verbose and no color")
+	nocolor := func(ui *clui.Clui) {
+		ui.Layout = &clui.PlainLayout{}
+	}
+	nocolorconf := func(ui *clui.Clui) {
+		ui.VerbosityLevel = clui.VerbosityLevelHigh
+		ui.Color = false
+		ui.StdWriter = os.Stdout
+		ui.ErrorWriter = os.Stderr
+	}
+	ui, _ = clui.NewClui(nocolor, nocolorconf)
+	ui.Confidential("Confidential message")
+	ui.Lifecycle("Lifecycle")
+	ui.Warn("warn ! warn !")
+	ui.Error("You made an error!")
 }
