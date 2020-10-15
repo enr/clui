@@ -1,9 +1,6 @@
 Go Clui
 =======
 
-[![Build Status](https://travis-ci.org/enr/clui.png?branch=master)](https://travis-ci.org/enr/clui)
-[![Build status](https://ci.appveyor.com/api/projects/status/i3k7rc0eudia1lws?svg=true)](https://ci.appveyor.com/project/enr/clui)
-
 Opinionated, minimalistic and cross platform UI library for Go command line apps.
 
 Import the library:
