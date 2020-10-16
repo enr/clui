@@ -41,30 +41,35 @@ func assertWriterEmpty(ui *Clui, t *testing.T) {
 		t.Fatalf("std writer: expected empty but got %s", result)
 	}
 }
+
 func assertErrorWriterEmpty(ui *Clui, t *testing.T) {
 	result := readErrorWriter(ui)
 	if result != "" {
 		t.Fatalf("err writer: expected empty but got %s", result)
 	}
 }
+
 func assertWriterEquals(message string, ui *Clui, t *testing.T) {
 	result := readWriter(ui)
 	if result != message {
 		t.Fatalf("std writer: expected %s but got %s", message, result)
 	}
 }
+
 func assertErrorWriterEquals(message string, ui *Clui, t *testing.T) {
 	result := readErrorWriter(ui)
 	if result != message {
 		t.Fatalf("err writer: expected %s but got %s", message, result)
 	}
 }
+
 func assertWriterContains(message string, ui *Clui, t *testing.T) {
 	result := readWriter(ui)
 	if !strings.Contains(result, message) {
 		t.Fatalf("std writer: expected containing %s but got %s", message, result)
 	}
 }
+
 func assertErrorWriterContains(message string, ui *Clui, t *testing.T) {
 	result := readErrorWriter(ui)
 	if !strings.Contains(result, message) {
@@ -74,6 +79,14 @@ func assertErrorWriterContains(message string, ui *Clui, t *testing.T) {
 
 func TestCluiVerbosityLevelMute(t *testing.T) {
 	ui := testClui(VerbosityLevelMute)
+	// title
+	ui.Title("title")
+	assertWriterEmpty(ui, t)
+	assertErrorWriterEmpty(ui, t)
+	// titlef
+	ui.Titlef("titlef")
+	assertWriterEmpty(ui, t)
+	assertErrorWriterEmpty(ui, t)
 	// success
 	ui.Success("success")
 	assertWriterEmpty(ui, t)
@@ -117,6 +130,14 @@ func TestCluiVerbosityLevelMute(t *testing.T) {
 }
 func TestCluiVerbosityLevelLow(t *testing.T) {
 	ui := testClui(VerbosityLevelLow)
+	// title
+	ui.Title("title")
+	assertWriterEmpty(ui, t)
+	assertErrorWriterEmpty(ui, t)
+	// titlef
+	ui.Titlef("titlef")
+	assertWriterEmpty(ui, t)
+	assertErrorWriterEmpty(ui, t)
 	// success
 	ui.Success("success")
 	assertWriterEmpty(ui, t)
@@ -160,6 +181,14 @@ func TestCluiVerbosityLevelLow(t *testing.T) {
 }
 func TestCluiVerbosityLevelMedium(t *testing.T) {
 	ui := testClui(VerbosityLevelMedium)
+	// title
+	ui.Title("TestCluiVerbosityLevelMedium/title")
+	assertWriterContains("TestCluiVerbosityLevelMedium/title", ui, t)
+	assertErrorWriterEmpty(ui, t)
+	// titlef
+	ui.Titlef("TestCluiVerbosityLevelMedium/titlef")
+	assertWriterContains("TestCluiVerbosityLevelMedium/titlef", ui, t)
+	assertErrorWriterEmpty(ui, t)
 	// success
 	ui.Success("TestCluiVerbosityLevelMedium/success")
 	assertWriterContains("TestCluiVerbosityLevelMedium/success", ui, t)
@@ -183,6 +212,14 @@ func TestCluiVerbosityLevelMedium(t *testing.T) {
 }
 func TestCluiVerbosityLevelHigh(t *testing.T) {
 	ui := testClui(VerbosityLevelHigh)
+	// title
+	ui.Title("TestCluiVerbosityLevelHigh/title")
+	assertWriterContains("TestCluiVerbosityLevelHigh/title", ui, t)
+	assertErrorWriterEmpty(ui, t)
+	// titlef
+	ui.Titlef("TestCluiVerbosityLevelHigh/titlef")
+	assertWriterContains("TestCluiVerbosityLevelHigh/titlef", ui, t)
+	assertErrorWriterEmpty(ui, t)
 	// success
 	ui.Success("TestCluiVerbosityLevelHigh/success")
 	assertWriterContains("TestCluiVerbosityLevelHigh/success", ui, t)
@@ -287,7 +324,7 @@ func TestColor(t *testing.T) {
 	}
 }
 
-func TestNoColor(t *testing.T) {
+func TestNoColorByEnv(t *testing.T) {
 	ui := &Clui{
 		Layout:         &SimpleLayout{},
 		VerbosityLevel: VerbosityLevelHigh,
@@ -301,6 +338,23 @@ func TestNoColor(t *testing.T) {
 	oldenv := os.Getenv("UI_NO_COLOR")
 	os.Setenv("UI_NO_COLOR", "1")
 	defer os.Setenv("UI_NO_COLOR", oldenv)
+	ui.Error("the error message")
+	result := readErrorWriter(ui)
+	if strings.TrimSpace(result) != "the error message" {
+		t.Fatalf("testcolor invalid output:'%s'", result)
+	}
+}
+
+func TestNoColorByField(t *testing.T) {
+	ui := &Clui{
+		Layout:         &SimpleLayout{},
+		VerbosityLevel: VerbosityLevelHigh,
+		Interactive:    true,
+		Color:          false,
+		Reader:         new(bytes.Buffer),
+		StdWriter:      new(bytes.Buffer),
+		ErrorWriter:    new(bytes.Buffer),
+	}
 	ui.Error("the error message")
 	result := readErrorWriter(ui)
 	if strings.TrimSpace(result) != "the error message" {
