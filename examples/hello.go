@@ -7,11 +7,15 @@ import (
 	"github.com/enr/clui"
 )
 
+// CustomLayout example
 type CustomLayout struct{}
 
+// Apply example
 func (l *CustomLayout) Apply(category clui.MessageCategory, message string) string {
 	return fmt.Sprintf("Custom: %v - %s\n", category, message)
 }
+
+// SupportsColors example
 func (l *CustomLayout) SupportsColors() bool {
 	return true
 }
